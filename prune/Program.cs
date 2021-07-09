@@ -18,5 +18,17 @@ namespace prune
             var branch = repo.Branches.FirstOrDefault(b => b.FriendlyName == branchName);
             repo.Branches.Remove(branch);
         }
+
+        static void PruneBranches()
+        {
+            using var repo = new Repository(Environment.CurrentDirectory);
+            foreach (var branch in repo.Branches)
+            {
+                if (branch.FriendlyName is not ("main" or "master"))
+                {
+                    repo.Branches.Remove(branch);
+                }
+            }
+        }
     }
 }
